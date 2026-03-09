@@ -34,7 +34,7 @@ jobs:
            uses: actions/setup-node@v3
 
            with:
-              node-version : '18'
+              node-version: '18'
 
         # Install frontend depedencies
          - name: Install Frontend Dependencies
@@ -43,5 +43,5 @@ jobs:
 
         # Build fronted
          - name: Build Frontend
-           run: npm run Build
+           run: npm run build
            working-directory: ./frontend
