@@ -32,16 +32,31 @@ jobs:
 
          - name: Setup Node 
            uses: actions/setup-node@v3
-
            with:
-              node-version: '18'
+              node-version: '22'
 
         # Install frontend depedencies
          - name: Install Frontend Dependencies
            run: npm install
            working-directory: ./frontend
 
-        # Build fronted
+        # Build frontend
          - name: Build Frontend
            run: npm run build
            working-directory: ./frontend
+         
+         #  setup Docker 
+         - name: Set up Docker Buildx
+           uses: docker/setup-buildx-action@v3
+
+         # Build backend docker image
+          
+         - name: Build backend docker image
+           run: docker build -t task-backend ./backend
+
+         - name: Build frontend docker image
+           run: docker build -t task-frontend ./frontend
+
+         - name: Docker compose build
+           run: docker compose  build
+
