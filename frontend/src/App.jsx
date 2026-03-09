@@ -1,51 +1,77 @@
 import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
 
-  // Fetch tasks from Flask API
+  // Fetch tasks
+  const fetchTasks = async () => {
+    const res = await fetch("http://localhost:5000/tasks");
+    const data = await res.json();
+    setTasks(data);
+  };
+
+  // Load tasks on page start
   useEffect(() => {
-    fetch("http://localhost:5000/tasks")
-      .then((res) => res.json())
-      .then((data) => setTasks(data));
+    fetchTasks();
   }, []);
 
-  // Add new task
+  // Add task
   const addTask = async () => {
     if (!newTask) return;
 
     await fetch("http://localhost:5000/tasks", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task: newTask }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: newTask }),
     });
 
-    // Update frontend state
-    setTasks([...tasks, newTask]);
     setNewTask("");
+    fetchTasks();
+  };
+
+  // Delete task
+  const deleteTask = async (id) => {
+    await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: "DELETE",
+    });
+
+    fetchTasks();
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
-      <h2>Task Manager</h2>
+    <div className="container">
+      <div className="card">
+        <h2>Task Manager</h2>
 
-      <input
-        type="text"
-        placeholder="Enter task"
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        style={{ width: "70%", padding: "5px" }}
-      />
-      <button onClick={addTask} style={{ padding: "5px 10px", marginLeft: "5px" }}>
-        Add
-      </button>
+        <div className="input-group">
+          <input
+            type="text"
+            placeholder="Enter a new task..."
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+          />
+          <button onClick={addTask}>Add</button>
+        </div>
 
-      <ul style={{ marginTop: "20px" }}>
-        {tasks.map((task, index) => (
-          <li key={index}>{task}</li>
-        ))}
-      </ul>
+        <ul className="task-list">
+          {tasks.map((task) => (
+            <li key={task.id} className="task-item">
+              {task.title}
+
+              <button
+                style={{ marginLeft: "10px" }}
+                onClick={() => deleteTask(task.id)}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
