@@ -18,11 +18,31 @@ jobs:
            with:
               python-version: '3.10'
 
-         - name: Install Dependencies
+         - name: Install Backend Dependencies
            run: |
               cd backend
               pip install -r requirements.txt
-         - name: Run Tests
+
+         - name: Run backend Tests
            run: |
                cd backend
                python -m pytest                  
+
+         # setup node for frontend
+
+         - name: Setup Node 
+           uses: actions/setup-node@v3
+
+           with:
+              node-version : '18'
+
+        # Install frontend depedencies
+         - name: Install Frontend Dependencies
+           run: npm install
+           working-directory: ./frontend
+
+        # Build fronted
+         - name: Build Frontend
+           run: npm run Build
+           working-directory: ./fronted
+           
