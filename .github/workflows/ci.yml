@@ -44,5 +44,4 @@ jobs:
         # Build fronted
          - name: Build Frontend
            run: npm run Build
-           working-directory: ./fronted
-           
+           working-directory: ./frontend
