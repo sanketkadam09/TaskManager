@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+
+  // Fetch tasks from Flask API
+  useEffect(() => {
+    fetch("http://localhost:5000/tasks")
+      .then((res) => res.json())
+      .then((data) => setTasks(data));
+  }, []);
+
+  // Add new task
+  const addTask = async () => {
+    if (!newTask) return;
+
+    await fetch("http://localhost:5000/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ task: newTask }),
+    });
+
+    // Update frontend state
+    setTasks([...tasks, newTask]);
+    setNewTask("");
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+      <h2>Task Manager</h2>
+
+      <input
+        type="text"
+        placeholder="Enter task"
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        style={{ width: "70%", padding: "5px" }}
+      />
+      <button onClick={addTask} style={{ padding: "5px 10px", marginLeft: "5px" }}>
+        Add
+      </button>
+
+      <ul style={{ marginTop: "20px" }}>
+        {tasks.map((task, index) => (
+          <li key={index}>{task}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default App
+export default App;
