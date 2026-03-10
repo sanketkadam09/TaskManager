@@ -31,6 +31,8 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/taskdb
     restart: always
 
+    command: ["./wait-for-it.sh","db:5432","--","python","app.py"]
+
   frontend:
     build:
       context: ./frontend
