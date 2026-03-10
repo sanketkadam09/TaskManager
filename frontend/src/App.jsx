@@ -63,7 +63,7 @@ function App() {
               {task.title}
 
               <button
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "11px" }}
                 onClick={() => deleteTask(task.id)}
               >
                 Delete
