@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 CORS(app)
 Base.metadata.create_all(bind=engine)
-
+# apis
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
     db = SessionLocal()
