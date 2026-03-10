@@ -12,6 +12,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+        - task-network  
 
   backend:
     build:
@@ -21,6 +23,10 @@ services:
       - "5000:5000"
     depends_on:
       - db
+
+    networks:
+       - task-network
+
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/taskdb
     restart: always
@@ -33,6 +39,12 @@ services:
       - "5173:5173"
     depends_on:
       - backend
+    networks:
+      - task-network  
 
 volumes:
   postgres_data:
+
+networks:
+   task-network:
+      driver: bridge
