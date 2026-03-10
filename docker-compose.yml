@@ -1,40 +1,38 @@
 version: "3.9"
 
 services:
-    db:
-       image: postgres:15
-       container_name: task-db
-       environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: taskdb
-       ports:
-        - "5432:5432"
+  db:
+    image: postgres:15
+    container_name: task-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: taskdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-       environment:
-          DATABASE_URL:postgresql://postgres:postgres@db:5432/taskdb 
-       volumes:
-          - postgres_data:/var/lib/postgresql/data 
+  backend:
+    build:
+      context: ./backend
+    container_name: task-backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/taskdb
+    restart: always
 
-    backend:
-     build:
-       context: ./backend
-     ports:
-       - "5000:5000"
-     depends_on:
-       - db  
-     restart: always  
-
-     container_name: task-backend
-
-    frontend:
-      build: 
-         context: ./frontend
-      ports:
-        - "5173:5173"
-      depends_on:
-        - backend
-      container_name: task-frontend    
+  frontend:
+    build:
+      context: ./frontend
+    container_name: task-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 
 volumes:
-   postgres_data:
+  postgres_data:
