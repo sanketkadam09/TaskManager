@@ -16,8 +16,7 @@ services:
         - task-network  
 
   backend:
-    build:
-      context: ./backend
+    image: sanketkadam09/task-backend:latest
     container_name: task-backend
     ports:
       - "5000:5000"
@@ -34,8 +33,7 @@ services:
     command: ["./wait-for-it.sh","db:5432","--","python","app.py"]
 
   frontend:
-    build:
-      context: ./frontend
+    image: sanketkadam09/task-frontend:latest
     container_name: task-frontend
     ports:
       - "5173:5173"
