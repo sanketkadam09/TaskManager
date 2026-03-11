@@ -45,7 +45,7 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h2>Task Manager Website</h2>
+        <h2>Task Management Website</h2>
 
         <div className="input-group">
           <input
