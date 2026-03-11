@@ -35,7 +35,7 @@ function App() {
 
   // Delete task
   const deleteTask = async (id) => {
-    await fetch(`http://13.234.186.147/tasks:5000/${id}`, {
+    await fetch(`http://13.234.186.147:5000/tasks/${id}`, {
       method: "DELETE",
     });
 
@@ -45,7 +45,7 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h2>Task Manager</h2>
+        <h2>Task Manager Website</h2>
 
         <div className="input-group">
           <input
