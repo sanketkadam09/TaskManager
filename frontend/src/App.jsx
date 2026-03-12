@@ -7,7 +7,7 @@ function App() {
 
   // Fetch tasks
   const fetchTasks = async () => {
-    const res = await fetch("http://13.234.186.147:5000/tasks");
+    const res = await fetch("http://13.206.51.7:5000/tasks");
     const data = await res.json();
     setTasks(data);
   };
@@ -21,7 +21,7 @@ function App() {
   const addTask = async () => {
     if (!newTask) return;
 
-    await fetch("http://13.234.186.147:5000/tasks", {
+    await fetch("http://13.206.51.7:5000/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ function App() {
 
   // Delete task
   const deleteTask = async (id) => {
-    await fetch(`http://13.234.186.147:5000/tasks/${id}`, {
+    await fetch(`http://13.206.51.7:5000/tasks/${id}`, {
       method: "DELETE",
     });
 
