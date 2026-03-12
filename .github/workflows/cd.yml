@@ -28,8 +28,8 @@ jobs:
                  docker pull sanketkadam09/task-backend:latest
                  docker pull sanketkadam09/task-frontend:latest
                  echo "restart container"
-                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml down
-                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d
+                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d backend
+                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d frontend
                  echo "deployment completed"
 
 
