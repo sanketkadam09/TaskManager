@@ -30,7 +30,7 @@ jobs:
                  echo "restart container"
                  docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml down
                  docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d
-                 echo "deployment completed"
+                 echo "deployment complete"
 
 
       
