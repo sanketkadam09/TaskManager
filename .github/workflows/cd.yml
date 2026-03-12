@@ -23,13 +23,13 @@ jobs:
              username: ${{ secrets.EC2_USER }}
              key: ${{ secrets.EC2_SSH_KEY }}
              port: 22
-             scripts: |
+             script: |
                  echo "pulling latest docker image "
                  docker pull sanketkadam09/task-backend:latest
                  docker pull sanketkadam09/task-frontend:latest
                  echo "restart container"
-                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d backend
-                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d frontend
+                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml down
+                 docker-compose -f /home/ubuntu/taskmanager/docker-compose.yml up -d
                  echo "deployment completed"
 
 
